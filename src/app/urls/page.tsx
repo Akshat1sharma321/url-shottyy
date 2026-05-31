@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 async function fetchUrls() {
-  const response = await fetch("/api/urls", {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/urls`, {
     cache: "force-cache",
   });
   if (!response.ok) {
@@ -21,7 +21,7 @@ export default async function UrlList() {
           <h1 className="text-3xl font-bold mg-6 text-center text-gray-700">
             Error
           </h1>
-          <p className=" text-center text-red-500">Failed to load URLs.</p>
+          <p className=" text-center text-red-500">Failed to load Urls .</p>
         </div>
       </div>
     );
@@ -60,14 +60,10 @@ export default async function UrlList() {
                         <td>{url.originalUrl}</td>
                         <td>
                           <a
-                            href={`/urls/${url.shortUrl}`}
+                            href={`/${url.shortUrl}`}
                             target="_blank"
                             className="link link-primary"
-                          >
-                            {process.env.NEXT_PUBLIC_BASE_URL
-                              ? `${process.env.NEXT_PUBLIC_BASE_URL}/urls/${url.shortUrl}`
-                              : `/urls/${url.shortUrl}`}
-                          </a>
+                          >{`${process.env.NEXT_PUBLIC_BASE_URL}/${url.shortUrl}`}</a>
                         </td>
                       </tr>
                     );
