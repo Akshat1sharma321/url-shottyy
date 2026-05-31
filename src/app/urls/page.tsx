@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 async function fetchUrls() {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/urls`, {
+  const response = await fetch("/api/urls", {
     cache: "force-cache",
   });
   if (!response.ok) {
@@ -21,7 +21,7 @@ export default async function UrlList() {
           <h1 className="text-3xl font-bold mg-6 text-center text-gray-700">
             Error
           </h1>
-          <p className=" text-center text-red-500">Failed to load Urls .</p>
+          <p className=" text-center text-red-500">Failed to load URLs.</p>
         </div>
       </div>
     );
@@ -48,26 +48,31 @@ export default async function UrlList() {
               </tr>
             </thead>
             <tbody>
-              {urls.urls && urls.urls.map(
-                (url: {
-                  _id: string;
-                  originalUrl: string;
-                  shortUrl: string;
-                }) => {
-                  return (
-                    <tr key={url._id}>
-                      <td>{url.originalUrl}</td>
-                      <td>
-                        <a
-                          href={`/${url.shortUrl}`}
-                          target="_blank"
-                          className="link link-primary"
-                        >{`${process.env.NEXT_PUBLIC_BASE_URL}/${url.shortUrl}`}</a>
-                      </td>
-                    </tr>
-                  );
-                },
-              )}
+              {urls.urls &&
+                urls.urls.map(
+                  (url: {
+                    _id: string;
+                    originalUrl: string;
+                    shortUrl: string;
+                  }) => {
+                    return (
+                      <tr key={url._id}>
+                        <td>{url.originalUrl}</td>
+                        <td>
+                          <a
+                            href={`/urls/${url.shortUrl}`}
+                            target="_blank"
+                            className="link link-primary"
+                          >
+                            {process.env.NEXT_PUBLIC_BASE_URL
+                              ? `${process.env.NEXT_PUBLIC_BASE_URL}/urls/${url.shortUrl}`
+                              : `/urls/${url.shortUrl}`}
+                          </a>
+                        </td>
+                      </tr>
+                    );
+                  },
+                )}
             </tbody>
           </table>
         </div>
